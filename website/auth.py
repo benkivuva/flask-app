@@ -17,9 +17,6 @@ auth = Blueprint('auth', __name__)
 def login():
     """
     Display the login page.
-
-    Returns:
-        str: HTML content for the login page.
     """
     return "<p>Login</p>"
 
@@ -28,9 +25,6 @@ def login():
 def logout():
     """
     Log the user out.
-
-    Returns:
-        str: HTML content for the log out page.
     """
     return "<p>Log Out</p>"
 
@@ -39,8 +33,5 @@ def logout():
 def sign_up():
     """
     Display the sign-up page.
-
-    Returns:
-        str: HTML content for the sign-up page.
     """
     return "<p>Sign Up</p>"
