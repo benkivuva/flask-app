@@ -7,7 +7,7 @@ login, logout, and sign-up.
 
 """
 
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 # Create the 'auth' blueprint
 auth = Blueprint('auth', __name__)
@@ -18,7 +18,7 @@ def login():
     """
     Display the login page.
     """
-    return "<p>Login</p>"
+    return render_template("login.html", boolean=True)
 
 
 @auth.route('/logout')
@@ -29,9 +29,9 @@ def logout():
     return "<p>Log Out</p>"
 
 
-@auth.route('/sign-up')
+@auth.route('/signup')
 def sign_up():
     """
     Display the sign-up page.
     """
-    return "<p>Sign Up</p>"
+    return render_template("signup.html")
