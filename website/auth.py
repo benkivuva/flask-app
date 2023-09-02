@@ -29,7 +29,7 @@ def logout():
     return "<p>Log Out</p>"
 
 
-@auth.route('/signup')
+@auth.route('/sign-up')
 def sign_up():
     """
     Display the sign-up page.
