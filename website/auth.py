@@ -7,7 +7,7 @@ login, logout, and sign-up.
 
 """
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash
 
 # Create the 'auth' blueprint
 auth = Blueprint('auth', __name__)
@@ -36,19 +36,19 @@ def sign_up():
     """
     if request.method == 'POST':
         email = request.form.get('email')
-        first_name = request.form.get('firstName')
+        firstName = request.form.get('firstName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
         if len(email) < 4:
-            pass
+            flash('Email is too short', category='error')
         elif len(firstName) < 2:
-            pass
+            flash('Name must be grater than two characters', category='error')
         elif password1 != password2:
-            pass
-        elif password1 < 7:
-            pass
+            flash('Passwords do not match', category='error')
+        elif len(password1) < 7:
+            flash('Password  is too short', category='error')
         else:
             # add user to db
-            pass
+            flash('Account created', category='success')
     return render_template("signup.html")
