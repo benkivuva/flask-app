@@ -4,7 +4,26 @@
 
 {% block content %}
 <div class="container">
-  <h1>Welcome to the Home Page</h1>
-  <p>This is the content of your home page.</p>
+  <h1 class="text-center">Notes</h1>
+
+  <ul class="list-group list-group-flush" id="notes">
+    {% for note in user.notes %}
+    <li class="list-group-item">
+      {{ note.data }}
+      <button type="button" class="close" onClick="deleteNote({{ note.id }})">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <form method="POST">
+    <div class="form-group">
+      <textarea name="note" id="note" class="form-control" placeholder="Enter your note"></textarea>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Add Note</button>
+    </div>
+  </form>
 </div>
 {% endblock %}
