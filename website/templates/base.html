@@ -16,6 +16,20 @@
     />
 
     <title>{% block title %}Home{% endblock %}</title>
+    <style>
+      body {
+          /* Set background image */
+          background-image: url("{{ url_for('static', filename='background.jpg') }}");
+          /* Set background size to cover the entire viewport */
+          background-size: cover;
+          /* Center the background image */
+          background-position: center center;
+          /* Fixed position to ensure it covers the entire page */
+          background-attachment: fixed;
+          /* Add background color as a fallback */
+          background-color: #f8f8f8; /* You can change this to your desired background color */
+      }
+  </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
