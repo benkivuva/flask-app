@@ -65,19 +65,20 @@ def sign_up():
         if user:
             flash('Email already exists.', category='error')
         elif len(email) < 4:
-            flash('Email is too short', category='error')
+            flash('Email must be greater than 3 characters.', category='error')
         elif len(first_name) < 2:
-            flash('Name must be grater than two characters', category='error')
+            flash('First name must be greater than 1 character.', category='error')
         elif password1 != password2:
-            flash('Passwords do not match', category='error')
+            flash('Passwords don\'t match.', category='error')
         elif len(password1) < 7:
-            flash('Password  is too short', category='error')
+            flash('Password must be at least 7 characters.', category='error')
         else:
             new_user = User(email=email, first_name=first_name, password=generate_password_hash(
                 password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
-            flash('Account created', category='success')
+            login_user(new_user, remember=True)
+            flash('Account created!', category='success')
             return redirect(url_for('views.home'))
+
     return render_template("signup.html", user=current_user)
