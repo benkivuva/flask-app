@@ -1,37 +1,66 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from os import path
+from flask_login import LoginManager
 
-# Create a SQLAlchemy database instance
+# Initialize SQLAlchemy and set the database file name
 db = SQLAlchemy()
-
-# Define the database file name
 DB_NAME = "database.db"
+
 
 def create_app():
     """
-    Create and configure a Flask application instance.
+    Create a Flask application instance.
 
     Returns:
-        Flask: The configured Flask application instance.
+        Flask: The Flask application instance.
     """
-    # Create the Flask app instance
     app = Flask(__name__)
-
-    # Set the SECRET_KEY for session management
     app.config['SECRET_KEY'] = 'mimikamaishuuuuu'
-
-    # Configure the SQLAlchemy database URI
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-
-    # Initialize the SQLAlchemy extension with the app
     db.init_app(app)
 
-    # Import blueprints for modularization
     from .views import views
     from .auth import auth
 
-    # Register blueprints with URL prefixes
+    # Register blueprints for views and authentication
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
+    from .models import User, Note
+    
+    with app.app_context():
+        # Create the database tables based on the defined models
+        db.create_all()
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(id):
+        """
+        Load a user by their ID.
+
+        Args:
+            id: User ID.
+
+        Returns:
+            User: The User object corresponding to the ID.
+        """
+        return User.query.get(int(id))
+
     return app
+
+
+def create_database(app):
+    """
+    Create the database if it does not exist.
+
+    Args:
+        app (Flask): The Flask application instance.
+    """
+    if not path.exists('website/' + DB_NAME):
+        # Create the database tables
+        db.create_all(app=app)
+        print('Created Database!')
