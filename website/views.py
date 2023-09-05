@@ -7,12 +7,11 @@ import json
 # Create a Blueprint named 'views'
 views = Blueprint('views', __name__)
 
-
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
     """
-    Render the home page.
+    Render the home page and handle note creation.
 
     Returns:
         str: HTML content for the home page.
@@ -32,6 +31,12 @@ def home():
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():  
+    """
+    Delete a note using AJAX.
+
+    Returns:
+        dict: An empty JSON response.
+    """
     note = json.loads(request.data)
     noteId = note['noteId']
     note = Note.query.get(noteId)
